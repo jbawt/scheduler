@@ -7,6 +7,8 @@ import useVisualMode from "../../hooks/useVisualMode";
 import Form from "components/Appoinment/Form";
 import Status from "components/Appoinment/Status";
 import Confirm from "components/Appoinment/Confirm";
+import Error from "components/Appoinment/Error";
+// import { getAppointmentsForDay } from "components/helpers/selectors";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -15,6 +17,8 @@ const SAVING = "SAVING";
 const EDIT = "EDIT";
 const DELETE = "DELETE";
 const CONFIRM = "CONFIRM";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appoinment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -27,25 +31,32 @@ export default function Appoinment(props) {
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+    props.bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
   };
 
   const onDelete = () => {
     transition(CONFIRM);
   };
-
+  
   const onEdit = () => {
     transition(EDIT);
   };
-
+  
   const onConfirmDelete = () => {
-    transition(DELETE);
-    props.cancelInterview(props.id).then(() => transition(EMPTY));
+    transition(DELETE, true);
+    props.cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch(error =>  transition(ERROR_DELETE, true));
   };
 
   const onCancelDelete = () => {
     back();
   };
+  const onClose = () => {
+    back();
+  }
 
   return (
     <article className="appointment">
@@ -86,6 +97,18 @@ export default function Appoinment(props) {
           onSave={onSave}
         />
       )}
+      {mode === ERROR_DELETE && (
+        <Error 
+          message="Having trouble deleting appointment" 
+          onClose={onClose}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error 
+          message="Having trouble saving appointment" 
+          onClose={onClose}
+        />
+        )}
     </article>
   );
 }
