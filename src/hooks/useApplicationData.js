@@ -18,6 +18,7 @@ export default function useApplicationData() {
         obj.spots = obj.spots - 1;
       }
     }
+    return days;
   };
 
   const bookInterview = (id, interview) => {
@@ -46,8 +47,8 @@ export default function useApplicationData() {
   };
 
   const cancelInterview = (id) => {
-    spotCounter(state.days, state.day, "plus");
-
+    let newDays = spotCounter(state.days, state.day, "plus");
+    console.log("new days array", newDays);
     const deleteAppointment = axios
       .delete(`/api/appointments/${id}`)
       .then(() => {
@@ -62,6 +63,7 @@ export default function useApplicationData() {
         setState({
           ...state,
           appointments,
+          days: newDays,
         });
       });
     return deleteAppointment;
