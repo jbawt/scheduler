@@ -24,8 +24,8 @@ npm run storybook
 
 ## images
 
-![image of form](https://github.com/jbawt/scheduler/blob/master/docs/screen-shots/form.xcf)
+![image of form](https://github.com/jbawt/scheduler/blob/master/docs/screen-shots/form.png)
 
-![image of main page](https://github.com/jbawt/scheduler/blob/master/docs/screen-shots/main-page.xcf)
+![image of main page](https://github.com/jbawt/scheduler/blob/master/docs/screen-shots/main-page.png)
 
-![image of new appt booked](https://github.com/jbawt/scheduler/blob/master/docs/screen-shots/new-appt.xcf)
+![image of new appt booked](https://github.com/jbawt/scheduler/blob/master/docs/screen-shots/new-appt.png)
