@@ -21,10 +21,6 @@ export default function useApplicationData() {
   };
 
   const bookInterview = (id, interview) => {
-    if (state.appointments[id].interview === null) {
-      spotCounter(state.days, state.day, "minus");
-    }
-
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -37,6 +33,9 @@ export default function useApplicationData() {
     const bookedAppointment = axios
       .put(`/api/appointments/${id}`, appointment)
       .then(() => {
+        if (state.appointments[id].interview === null) {
+          spotCounter(state.days, state.day, "minus");
+        }
         setState({
           ...state,
           appointments,
@@ -46,10 +45,10 @@ export default function useApplicationData() {
   };
 
   const cancelInterview = (id) => {
-    spotCounter(state.days, state.day, "plus");
     const deleteAppointment = axios
       .delete(`/api/appointments/${id}`)
       .then(() => {
+        spotCounter(state.days, state.day, "plus");
         const appointment = {
           ...state.appointments[id],
           interview: null,
